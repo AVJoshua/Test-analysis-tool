@@ -33,7 +33,17 @@ def getUsername():
 def greetUser(name):
     print("Hello," + name)
     
+# Get Text from file
+def getArticleText():
+    f = open("./files/article.txt")
+    rawText = f.read()
+    f.close()
+    return rawText.replace("\n", " ")
+
 welcomeUser()
 userName = getUsername()
 greetUser(userName)
 
+articleTextRaw = getArticleText()
+print("GOT:")
+print(articleTextRaw)
