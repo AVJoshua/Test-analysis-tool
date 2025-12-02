@@ -51,7 +51,7 @@ def tokenizeSentences(rawText):
 def tokenizeWords(sentences):
     words = []
     for sentence in sentences:
-        words.extend(word_tokenize(sentence))
+        words.extend(word_tokenize(sentence))      
     return words
 
 # Get the key sentences based on search pattern of key word
@@ -62,6 +62,14 @@ def extractKeySentences(sentences, searchPattern):
         if re.search(searchPattern, sentence.lower()):
             matchedSentences.append(sentence)
     return matchedSentences
+# Get the average words per sentence excluding punctuation
+def getWordsPerSentence(sentences):
+    totalwords = 0
+    for sentence in sentences:
+        totalwords += len(sentence.split(" "))
+        
+    return totalwords / len(sentences)
+
 # Get User Details
 welcomeUser()
 userName = getUsername()
@@ -74,9 +82,10 @@ articleSentences = tokenizeSentences(articleTextRaw)
 articleWords = tokenizeWords(articleSentences)
 
 #Get Analytics
-stockSearchPattern = "/[0-9]|[%$€£¥]|thousand|million|billion|trillion/g"
+stockSearchPattern = "/[0-9]|[%$€£¥]|thousand|million|billion|trillion|profit|loss/g"
 keySentences = extractKeySentences(articleSentences, stockSearchPattern)
+wordsPerSentence = getWordsPerSentence(articleSentences)
 
 # Print for testing
 print("GOT:")
-print(keySentences)
+print(wordsPerSentence)
