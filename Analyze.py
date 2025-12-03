@@ -70,10 +70,20 @@ def getWordsPerSentence(sentences):
         
     return totalwords / len(sentences)
 
+def cleansedWordList(words):
+    cleansedWords = []
+    invalidWordPattern = "[^a-zA-Z-]"
+    for word in  words:
+        cleansedWord = word.replace(".", "").lower()
+        if (not re.search(invalidWordPattern, cleansedWord)) and len(word) > 1:
+            cleansedWords.append(cleansedWord)
+    return cleansedWords
+    
+
 # Get User Details
-welcomeUser()
-userName = getUsername()
-greetUser(userName)
+# welcomeUser()
+# userName = getUsername()
+# greetUser(userName)
 
 
 #Extract and Tokenize Text
@@ -81,11 +91,14 @@ articleTextRaw = getArticleText()
 articleSentences = tokenizeSentences(articleTextRaw)
 articleWords = tokenizeWords(articleSentences)
 
-#Get Analytics
-stockSearchPattern = "/[0-9]|[%$€£¥]|thousand|million|billion|trillion|profit|loss/g"
+#Get Sentence Analytics
+stockSearchPattern = "/[0-9]|[%$€£¥]|thousand|million|billion|trillion|profit|loss"
 keySentences = extractKeySentences(articleSentences, stockSearchPattern)
 wordsPerSentence = getWordsPerSentence(articleSentences)
 
+# Get Word Analytics
+articleWordsCleansed = cleansedWordList(articleWords)
+
 # Print for testing
 print("GOT:")
-print(wordsPerSentence)
+print(articleWordsCleansed)
