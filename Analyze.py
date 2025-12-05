@@ -1,6 +1,11 @@
+import nltk
 from random_username.generate import generate_username
 from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.stem import WordNetLemmatizer
+#nltk.download('wordnet')
+wordLemmatizer = WordNetLemmatizer()
 import re
+
 
 
 # Welcome User
@@ -70,13 +75,15 @@ def getWordsPerSentence(sentences):
         
     return totalwords / len(sentences)
 
+# Filter raw tokenized words list to only include
+# valid english words
 def cleansedWordList(words):
     cleansedWords = []
     invalidWordPattern = "[^a-zA-Z-]"
     for word in  words:
         cleansedWord = word.replace(".", "").lower()
         if (not re.search(invalidWordPattern, cleansedWord)) and len(word) > 1:
-            cleansedWords.append(cleansedWord)
+            cleansedWords.append(wordLemmatizer.lemmatize(cleansedWord))
     return cleansedWords
     
 
