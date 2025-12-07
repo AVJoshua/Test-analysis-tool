@@ -4,6 +4,7 @@ import re
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet, stopwords
+from wordcloud import WordCloud
 #nltk.download('stopwords')
 #nltk.download('wordnet')
 #nltk.download('averaged_perceptron_tagger_eng')
@@ -81,9 +82,6 @@ def getWordsPerSentence(sentences):
         
     return totalwords / len(sentences)
 
-# Source - https://stackoverflow.com/a
-# Posted by Suzana, modified by community. See post 'Timeline' for change history
-# Retrieved 2025-12-07, License - CC BY-SA 4.0
 
 # Convert part of speech from pos_tag() function
 # into wordnet compatible pos tag
@@ -116,9 +114,9 @@ def cleansedWordList(posTaggedWordTuples):
     
 
 # Get User Details
-welcomeUser()
-userName = getUsername()
-greetUser(userName)
+# welcomeUser()
+# userName = getUsername()
+# greetUser(userName)
 
 
 #Extract and Tokenize Text
@@ -135,6 +133,13 @@ wordsPerSentence = getWordsPerSentence(articleSentences)
 wordsPosTagged = nltk.pos_tag(articleWords)
 articleWordsCleansed = cleansedWordList(wordsPosTagged)
 
+# Generate word cloud
+separator = " "
+wordcloud = WordCloud(width = 1000, height = 700, \
+  background_color="salmon", colormap="Set3", collocations=False).generate(separator.join(articleWordsCleansed))
+wordcloud.to_file("results/wordcloud.png")
+
+
 # Print for testing
-print("GOT:")
-print(articleWordsCleansed)
+print("Done!")
+#print(articleWordsCleansed)
