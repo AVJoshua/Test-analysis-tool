@@ -46,9 +46,15 @@ headers = {
 }
 
 def extractCompanyNewsArticles(newsArticle):
-    url = newsArticle[0]['link']['url']
-    page = requests.get(url, headers=headers)
-    print(page.text)
+    for newsArticle in newsArticle:
+        url = newsArticle['link']['url']
+        page = requests.get(url, headers=headers)
+        soup = BeautifulSoup(page.text, "html.parser")
+
+        if soup.find_all(string='Continue Reading'):
+            print("Tag Found - should skip")
+        else:
+            print("Tag not found, don't skip")
 
 def getCompanyStockInfo(tickerSymbol):
     #Get data from Yahoo Finance API
