@@ -41,20 +41,28 @@ def getCompanyNews(company):
         allNewsArticle.append(newsDictToAdd)
     return allNewsArticle
 
+def extractNewsArticleTextFromHtml(soup):
+    allText = ""
+    result = soup.find_all("div", {"class":"bodyItems-wrapper"})
+    for res in result:
+        allText += res.text
+    return allText
+
+
+
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0'
 }
 
 def extractCompanyNewsArticles(newsArticle):
+    allArticlesText = ""
     for newsArticle in newsArticle:
         url = newsArticle['link']['url']
         page = requests.get(url, headers=headers)
         soup = BeautifulSoup(page.text, "html.parser")
-
-        if soup.find_all(string='Continue Reading'):
-            print("Tag Found - should skip")
-        else:
-            print("Tag not found, don't skip")
+        if not soup.find_all(string='Continue Reading'):
+            allArticlesText += extractNewsArticleTextFromHtml(soup)
+    return allArticlesText
 
 def getCompanyStockInfo(tickerSymbol):
     #Get data from Yahoo Finance API
@@ -65,7 +73,7 @@ def getCompanyStockInfo(tickerSymbol):
     priceHistory = getPriceHistory(company)
     futureEarningsDate = getEarningsDates(company)
     newsArticle = getCompanyNews(company)
-    extractCompanyNewsArticles(newsArticle)
-    # print(newsArticle)
+    newsArticlesAllText = extractCompanyNewsArticles(newsArticle)
+    print(newsArticlesAllText)
 
 getCompanyStockInfo('MSFT')
