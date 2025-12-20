@@ -69,9 +69,12 @@ def extractCompanyNewsArticles(newsArticle):
 def getCompanyStockInfo(tickerSymbol):
     #Get data from Yahoo Finance API
     company = yf.Ticker(tickerSymbol)
-
     # Get basic info on company
     basicInfo = extractBasicInfo(company.info)
+    #Check if company exists, if not, trigger error
+    if not basicInfo["longName"]:
+        raise NameError("Could not find stock info, symbol may be delisted or does not exist.")
+
     priceHistory = getPriceHistory(company)
     futureEarningsDate = getEarningsDates(company)
     newsArticle = getCompanyNews(company)
@@ -88,5 +91,5 @@ def getCompanyStockInfo(tickerSymbol):
     return finalStockAnalysis
 
 
-# companyStockAnalysis = getCompanyStockInfo('MSFT')
-# print(json.dumps(companyStockAnalysis, indent=4))
+companyStockAnalysis = getCompanyStockInfo('MSFT')
+print(json.dumps(companyStockAnalysis, indent=4))

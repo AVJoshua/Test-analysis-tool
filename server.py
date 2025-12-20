@@ -19,7 +19,12 @@ def analyzeStock(ticker):
     ticker
     if len(ticker) > 5  or not ticker.isidentifier():
         abort(400, 'Invalid ticker symbol')
-    analysis = getCompanyStockInfo(ticker)
+    try:
+        analysis = getCompanyStockInfo(ticker)
+    except NameError as e:
+        abort(404, e)
+    except:
+        abort(500, 'Something went wrong running the stock analysis.')
     return analysis
 
 
