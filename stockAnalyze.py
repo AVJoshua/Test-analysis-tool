@@ -34,11 +34,12 @@ def getEarningsDates(company):
 
 def getCompanyNews(company):
     newsList = company.news
+
     allNewsArticle = []
     for newsDict in newsList:
         newsDictToAdd = {
             'title': newsDict['content']['title'],
-            'link': newsDict['content']['canonicalUrl']
+            'link': newsDict['content']['canonicalUrl']['url']
         }
         allNewsArticle.append(newsDictToAdd)
     return allNewsArticle
@@ -59,7 +60,7 @@ headers = {
 def extractCompanyNewsArticles(newsArticle):
     allArticlesText = ""
     for newsArticle in newsArticle:
-        url = newsArticle['link']['url']
+        url = newsArticle['link']
         page = requests.get(url, headers=headers)
         soup = BeautifulSoup(page.text, "html.parser")
         if not soup.find_all(string='Continue Reading'):
