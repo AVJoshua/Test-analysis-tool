@@ -23,7 +23,7 @@ def healthCheck():
 
 @app.route('/analyze-stock/<ticker>', methods=["GET"])
 def analyzeStock(ticker):
-    return stockDataTest
+    # return stockDataTest
     if len(ticker) > 5  or not ticker.isidentifier():
         abort(400, 'Invalid ticker symbol')
     try:
@@ -47,4 +47,4 @@ def analyzeTextHandler():
 if __name__ == '__main__':
     # run() method of Flask class runs the application 
     # on the local development server.
-    app.run()
+    app.run(host="0.0.0.0")

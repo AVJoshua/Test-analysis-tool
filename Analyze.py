@@ -7,10 +7,10 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet, stopwords
 from wordcloud import WordCloud
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-#nltk.download('stopwords')
-#nltk.download('wordnet')
-#nltk.download('averaged_perceptron_tagger_eng')
-#nltk. download ('vader_lexicon')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger_eng')
+nltk. download ('vader_lexicon')
 wordLemmatizer = WordNetLemmatizer()
 stopWords = set(stopwords.words('english'))
 sentimentAnalyzer = SentimentIntensityAnalyzer()
