@@ -12,7 +12,7 @@ stockDataTest = json.load(f)
 # Flask constructor takes the name of 
 # current module (__name__) as argument.
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["https://avjoshua.github.io"])
 
 # The route() function of the Flask class is a decorator, 
 # which tells the application which URL should call 
